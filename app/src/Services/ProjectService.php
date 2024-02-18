@@ -245,8 +245,8 @@ class ProjectService implements IProjectService
             }
 
             $updatedProject = $this->projectRepository->getProjectById($projectDto->id);
-            // FIXME: docker containerben nem működik az e-mail küldés mailhoggal
-            $this->sendProjectUpdateNotificationEmail($updatedProject, $changedProperties);
+            // FIXME: docker containerben nem működik az e-mail küldés mailhoggal, ezért az e-mail küldés ki lett kapcsolva
+            //$this->sendProjectUpdateNotificationEmail($updatedProject, $changedProperties);
             $this->projectRepository->getPdo()->commit();
             $result->success = true;
             $result->message = "A projekt sikeresen módosítva!";
