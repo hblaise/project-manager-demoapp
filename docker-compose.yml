@@ -1,0 +1,62 @@
+version: "3.7"
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "Extr4C0mpl1c4t3dR00tP4ss"
+      MYSQL_DATABASE: "welove_test"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    # command:
+    # - --default-authentication-plugin=mysql_native_password
+
+  php:
+    container_name: php
+    image: php:fpm
+    volumes:
+      - ./app:/var/www/html
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./config/php/mail.ini:/usr/local/etc/php/conf.d/mail.ini
+    depends_on:
+      - mysql
+      - mailhog
+    command:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        echo "Updating package list..."
+        apt-get update
+        echo "Installing git and unzip..."
+        apt-get install -y git unzip
+        echo "Installing MySQL PDO extension..."
+        docker-php-ext-install pdo_mysql
+        echo "Installing composer..."
+        curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+        echo "Running composer install..."
+        composer install
+        echo "Starting PHP-FPM..."
+        php-fpm
+
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/var/www/html
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - php
+
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025

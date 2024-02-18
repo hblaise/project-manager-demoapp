@@ -1,0 +1,7 @@
+{
+  "host": "mysql",
+  "port": 3306,
+  "username": "root",
+  "password": "Extr4C0mpl1c4t3dR00tP4ss",
+  "database": "welove_test"
+}

@@ -1,0 +1,34 @@
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+# PHPUnit
+/phpunit.xml
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+# Composer PHAR
+/composer.phar
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+# Other
+.env
+.idea/
+/.ignore
+/.vscode
+# Documentation
+/docs/.build
+/.phpdoc
+/src/.phpdoc
+# Docker
+mysql_data/*
+!mysql_data/.gitkeep
+# Vendor
+/app/vendor/composer/*
+!/app/vendor/autoload.php
+/app/logs/*
+!/app/logs/.gitkeep
